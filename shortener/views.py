@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 from .forms import UrlForm
 
@@ -6,6 +9,10 @@ from .forms import UrlForm
 
 
 def main_view(request):
+    return HttpResponseRedirect('/create')
+
+
+def create(request):
     form = UrlForm()
     dict_return = {}
     
@@ -19,3 +26,8 @@ def main_view(request):
     return render(request, 'shortener/main_view.html', dict_return)
 
 
+
+def shorturl(request, url):
+    print("shorturl: %s" % (url))
+    return HttpResponse(url)
+    

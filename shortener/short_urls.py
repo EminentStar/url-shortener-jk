@@ -25,7 +25,6 @@ def create(origin_url):
     su.save()
 
     redis_client.set(uuid_key, origin_url)
-    print("uuid_str: %s" % str(uuid_key))    
     return short_url
 
 
@@ -39,12 +38,9 @@ def shorturl(short_url):
     uuid_str = str(uuid_key)
     
     origin_url = redis_client.get(uuid_str)
-    
-    print("uuid_str: %s" % uuid_str)
 
     if origin_url:
         origin_url = origin_url.decode()
-        print(origin_url)
         return origin_url
     else:
         try:

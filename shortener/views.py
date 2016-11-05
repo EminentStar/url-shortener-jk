@@ -12,7 +12,7 @@ def main_view(request):
     return HttpResponseRedirect('/create')
 
 
-def create(request):
+def create_view(request):
     form = UrlForm()
     dict_return = {}
     
@@ -27,7 +27,7 @@ def create(request):
 
 
 
-def shorturl(request, url):
+def shorturl_view(request, url):
     print("shorturl: %s" % (url))
     return HttpResponse(url)
     

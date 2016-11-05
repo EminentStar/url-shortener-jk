@@ -1,6 +1,7 @@
 *.pyc
 __pycache__
 myvenv
+shortener/migrations
 db.sqlite3
 .DS_Store
 tags

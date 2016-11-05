@@ -7,6 +7,7 @@ import redis
 
 from .forms import UrlForm
 from .short_urls import create
+from .short_urls import shorturl
 
 
 # Create your views here.
@@ -36,5 +37,12 @@ def create_view(request):
 
 def shorturl_view(request, url):
     print("shorturl: %s" % (url))
-    return HttpResponse(url)
+    origin_url = shorturl(url)
+
+    if origin_url != "Not Found":
+        if not origin_url.startswith('http'):
+            origin_url = '%s%s' % ('http://', origin_url)
+        return HttpResponseRedirect(origin_url)
+    else:
+        return HttpResponse("404 Not Found")
     

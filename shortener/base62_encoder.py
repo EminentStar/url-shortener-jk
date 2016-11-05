@@ -26,11 +26,6 @@ def encode(id):
 
 
 def decode(hash_string):
-    decoded = 0
+    hash_string = reversed(hash_string)
+    return sum([CODES.index(c) * 62 ** i for i, c in enumerate(hash_string)])
 
-    for idx, char in enumerate(reversed(hash_string)):
-        base_num = CODES.index(char)
-        pos_sum = base_num * pow(62, idx)
-        decoded += pos_sum 
-
-    return decoded

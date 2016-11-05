@@ -13,9 +13,10 @@
     </div>
     <br>
     <div class="content scrapped">
-        {% if origin_url %}
+        {% if origin_url and short_url %}
             <div class= "row">
-                <p>{{ origin_url }}</p>
+                <p>original_url is {{ origin_url }}</p>
+                <p>short_url is {{ short_url }}</p>
             </div>
         {% endif %}
         {% if api %}

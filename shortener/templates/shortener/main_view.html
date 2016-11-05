@@ -19,23 +19,5 @@
                 <p>short_url is {{ short_url }}</p>
             </div>
         {% endif %}
-        {% if api %}
-            <div class="row">
-                <div class="col s12 m7">
-                  <div class="card small">
-                    <div class="card-image">
-                      <img class="scrapped_img" src="{{ api.image }}">
-                        <span class="card-title">{{ api.title }}</span>
-                    </div>
-                    <div class="card-content">
-                        <p>{{ api.description }}</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="{{ api.url }}">{{ api.url }}</a>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        {% endif %}
     </div>
 {% endblock content %}

@@ -19,47 +19,45 @@ def create(origin_url):
     short_url = redis_client.get("o" + origin_url)
 
     if short_url:
+        short_url = short_url.decode()
         return short_url
     else:
         try:
             short_url = ShortUrl.objects.get(original_url=origin_url).short_url
-        except ShortUrl.DoesNotExist as err:
-            print(err)
+        except ShortUrl.DoesNotExist:
+            guid = generate()
+            short_url = encode(guid) 
             
-            
+            store_url_in_cache(short_url, origin_url)
 
-   
-    guid = generate()
-    short_url = encode(guid) 
-    
-
-    su = ShortUrl(guid=guid, short_url=short_url, original_url=origin_url)
-    su.save()
-
-    redis_client.set(uuid_key, origin_url)
-    return short_url
+            su = ShortUrl(guid=guid, short_url=short_url, original_url=origin_url)
+            su.save()
+        finally:
+            return short_url
 
 
 def shorturl(short_url):
     """
         shorturl의 기존 url을 찾아 리턴하는 함수
     """
-    uuid_int = decode(short_url)
-    uuid_bytes = uuid_int.to_bytes(16, byteorder='big')
-    uuid_key = uuid.UUID(bytes=uuid_bytes)
-    uuid_str = str(uuid_key)
-    
-    origin_url = redis_client.get(uuid_str)
+    origin_url = redis_client.get("s" + short_url)
 
     if origin_url:
         origin_url = origin_url.decode()
         return origin_url
     else:
         try:
-            origin_url = ShortUrl.objects.get(uuid=uuid_str).original_url
-        except ShortUrl.DoesNotExist as err:
-            print(err)
-            return "Not Found"
+            guid = decode(short_url)
+            origin_url = ShortUrl.objects.get(guid=guid).original_url
+        except ShortUrl.DoesNotExist:
+            origin_url ="Not Found"
         else:
+            store_url_in_cache(short_url, origin_url)
+        finally:
             return origin_url
-       
+
+
+def store_url_in_cache(short_url, origin_url):
+    redis_client.set('s' + short_url, origin_url)
+    redis_client.set('o' + origin_url, short_url)
+            

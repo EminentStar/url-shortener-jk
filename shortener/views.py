@@ -29,8 +29,6 @@ def create_view(request):
         dict_return['short_url'] = host + '/' + short_url
 
     dict_return['form'] = form
-    
-
     return render(request, 'shortener/main_view.html', dict_return)
 
 

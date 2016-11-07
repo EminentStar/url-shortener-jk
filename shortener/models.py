@@ -4,7 +4,7 @@ from django.db import models
 
 
 class ShortUrl(models.Model):
-    uuid = models.CharField(max_length=36, primary_key=True, unique=True)
+    guid = models.BigIntegerField(primary_key=True)
     short_url = models.CharField(max_length=100)
     original_url = models.CharField(max_length=2083)
     

@@ -26,7 +26,7 @@ def create_view(request):
         host = request.META['HTTP_HOST']
         
         dict_return['origin_url'] = origin_url
-        dict_return['short_url'] = host + '/shorturl/' + short_url
+        dict_return['short_url'] = host + '/' + short_url
 
     dict_return['form'] = form
     

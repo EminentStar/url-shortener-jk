@@ -1,9 +1,9 @@
 import basehash
-import uuid
 import redis
 
 from .base62 import encode 
 from .base62 import decode
+from .guid import generate
 from shortener.models import ShortUrl
 
 
@@ -15,11 +15,25 @@ def create(origin_url):
         short URL을 생성하는 함수
         return:: short_url
     """
-    uuid_key = uuid.uuid4()
-    uuid_int = uuid_key.int
-    short_url = encode(uuid_int)
-       
-    su = ShortUrl(uuid=str(uuid_key), short_url=short_url, original_url=origin_url)
+
+    short_url = redis_client.get("o" + origin_url)
+
+    if short_url:
+        return short_url
+    else:
+        try:
+            short_url = ShortUrl.objects.get(original_url=origin_url).short_url
+        except ShortUrl.DoesNotExist as err:
+            print(err)
+            
+            
+
+   
+    guid = generate()
+    short_url = encode(guid) 
+    
+
+    su = ShortUrl(guid=guid, short_url=short_url, original_url=origin_url)
     su.save()
 
     redis_client.set(uuid_key, origin_url)

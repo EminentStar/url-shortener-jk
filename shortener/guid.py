@@ -3,7 +3,7 @@ import random
 
 
 TIMESTAMP_BIT_LEN = 31
-RANDVAL_BIT_LEN = 31
+RANDVAL_BIT_LEN = 33
 
 last_timestamp = 0
 

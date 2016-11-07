@@ -14,7 +14,7 @@ def encode(id):
 
     while dividend > 0:
         remainder = dividend % 62
-        dividend = int(dividend / 62)
+        dividend = int(dividend // 62)
         hash_digits.insert(0, remainder)
     
     hash_string = ""
